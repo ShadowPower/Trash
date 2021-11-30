@@ -156,12 +156,20 @@ func (node *TreeNode) findGameObject(radius int, xCenter int, yCenter int) []*Ga
 	result := []*GameObject{}
 	if node.checkOverlap(radius, xCenter, yCenter) {
 		for _, gameObject := range *node.objects {
-			x1 := float64(xCenter)
-			x2 := float64(gameObject.x)
-			y1 := float64(yCenter)
-			y2 := float64(gameObject.y)
-			distance := math.Sqrt(math.Pow(x1-x2, 2) + math.Pow(y1-y2, 2))
-			if distance < float64(radius) {
+			//x1 := float64(xCenter)
+			//x2 := float64(gameObject.x)
+			//y1 := float64(yCenter)
+			//y2 := float64(gameObject.y)
+			//distance := math.Sqrt(math.Pow(x1-x2, 2) + math.Pow(y1-y2, 2))
+			//if distance < float64(radius) {
+			//	result = append(result, gameObject)
+			//}
+
+			x1 := xCenter
+			x2 := gameObject.x
+			y1 := yCenter
+			y2 := gameObject.y
+			if (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2) < radius*radius {
 				result = append(result, gameObject)
 			}
 		}

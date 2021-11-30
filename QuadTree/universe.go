@@ -12,12 +12,14 @@ func NewUniverse(width int, height int) Universe {
 	return Universe{
 		width:    width,
 		height:   height,
-		elements: NewTreeNode(0, 0, 0, width, height, &[]*GameObject{}, nil),
+		elements: NewTreeNode(0, 0, 0, width, height, NewLinkList(), nil),
 	}
 }
 
 func (universe *Universe) initGameObjects(gameObjects []*GameObject) {
-	universe.elements.objects = &gameObjects
+	for _, gameObject := range gameObjects {
+		universe.elements.objects.add(gameObject)
+	}
 	universe.elements.update()
 }
 
@@ -65,8 +67,7 @@ func (universe *Universe) moveGameObject(gameObject *GameObject) {
 	if origNode == newNode {
 		return
 	} else {
-		newObjects := append(*newNode.objects, gameObject)
-		newNode.objects = &newObjects
+		newNode.objects.add(gameObject)
 		newNode.update()
 	}
 }
@@ -84,8 +85,6 @@ func (universe *Universe) removeGameObject(gameObject *GameObject) {
 	}
 }
 
-func (universe *Universe) findGameObject(radius int, x_center int, y_center int) []*GameObject {
-	var result []*GameObject
-	result = append(result, universe.elements.findGameObject(radius, x_center, y_center)...)
-	return result
+func (universe *Universe) findGameObject(radius int, xCenter int, yCenter int) []*GameObject {
+	return universe.elements.findGameObject(radius, xCenter, yCenter).toGameObjectArray()
 }

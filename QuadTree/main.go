@@ -130,9 +130,9 @@ func drawTreeNode(resultImage *image.RGBA, pos int, node *TreeNode)  {
 
 	draw.Draw(resultImage, rect, &image.Uniform{C: treeNodeColor}, image.Point{}, draw.Src)
 
-	if len(*node.objects) > 0 {
-		for _, gameObject := range *node.objects {
+	if node.objects.size > 0 {
+		node.objects.foreach(func(gameObject *GameObject) {
 			resultImage.Set(gameObject.x, gameObject.y, color.RGBA{R: 255, B: 255, G: 255, A: 255})
-		}
+		})
 	}
 }
